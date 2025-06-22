@@ -6,5 +6,6 @@ namespace GameTrader.Data.DomainModels
     {
         public ICollection<Account> Acounts { get; set; }
         public Profile Profile { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
