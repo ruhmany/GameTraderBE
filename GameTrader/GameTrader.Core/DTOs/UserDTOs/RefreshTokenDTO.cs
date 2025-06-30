@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameTrader.Data.DomainModels
+namespace GameTrader.Core.DTOs.UserDTOs
 {
-    public class RefreshToken : BaseEntity
+    public class RefreshTokenDTO
     {
+        public Guid Id { get; set; }
         public string Token { get; set; }
-        [ForeignKey(nameof(UserId))]
         public string UserId { get; set; }
-        public virtual User User { get; set; }
+        public RefreshTokenDTO()
+        {
+
+        }
     }
 }

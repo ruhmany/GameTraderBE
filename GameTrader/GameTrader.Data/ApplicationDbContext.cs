@@ -1,4 +1,5 @@
 ﻿using GameTrader.Data.DomainModels;
+using GameTrader.Data.EntityConfigurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,14 +11,15 @@ using System.Threading.Tasks;
 
 namespace GameTrader.Data
 {
-    public class DbContext : IdentityDbContext<User, Role, string>
+    public class ApplicationDbContext : IdentityDbContext<User, Role, string>
     {
-        public DbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration<RolePermission>(new RolePermissionConfigurations());
             base.OnModelCreating(builder);
             builder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
             builder.Ignore<IdentityUserClaim<string>>();

@@ -9,7 +9,7 @@ namespace GameTrader.Core.Helpers
 {
     public class JWTHelper
     {
-        public static string ExtractClaimsFromJet(string jwt, string key)
+        public static string ExtractClaimsFromJwt(string jwt, string key)
         {
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(jwt);

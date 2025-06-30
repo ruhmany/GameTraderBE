@@ -12,6 +12,6 @@ namespace GameTrader.Data.DomainModels
         public decimal UnitPrice { get; set; }
         public int UnitCount { get; set; }
         public CategoryEnum Category { get; set; }
-        public Account Account { get; set; }
+        public virtual Account Account { get; set; }
     }
 }
