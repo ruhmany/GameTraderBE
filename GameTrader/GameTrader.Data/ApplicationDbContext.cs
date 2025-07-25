@@ -20,6 +20,7 @@ namespace GameTrader.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration<RolePermission>(new RolePermissionConfigurations());
+            builder.ApplyConfiguration<Role>(new RoleConfiguration());
             base.OnModelCreating(builder);
             builder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
             builder.Ignore<IdentityUserClaim<string>>();
@@ -33,6 +34,7 @@ namespace GameTrader.Data
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<Permission> Permissions { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     }
 }

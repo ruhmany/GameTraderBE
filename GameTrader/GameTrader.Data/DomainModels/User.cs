@@ -18,6 +18,7 @@ namespace GameTrader.Data.DomainModels
         {
             CreatedDate = DateTime.Now;
         }
+        public Guid? ProfileId { get; set; }
         public virtual ICollection<Account> Acounts { get; set; }
         public virtual Profile Profile { get; set; }
     }

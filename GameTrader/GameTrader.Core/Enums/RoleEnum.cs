@@ -9,6 +9,6 @@ namespace GameTrader.Core.Enums
         SuperAdmin = 1,
         [DisplayName("User")]
         [RoleId("c9809a45-1681-49bf-9765-b64d015abfd2")]
-        User = 1,
+        User = 2,
     }
 }

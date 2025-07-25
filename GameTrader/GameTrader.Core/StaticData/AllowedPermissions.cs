@@ -14,7 +14,6 @@ namespace GameTrader.Core.StaticData
                     "/user/login",
                     "/workbase",
                     "/role",
-                    "/user/hhu-login",
                     "/user/create",
                     "/user/sendemail"
                 };

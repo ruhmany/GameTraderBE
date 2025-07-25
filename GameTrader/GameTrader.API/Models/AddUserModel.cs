@@ -8,7 +8,7 @@ namespace GameTrader.API.Models
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = ValidationMessages.FirstNameIsRequired)]
         [MaxLength(50, ErrorMessage = ValidationMessages.MaxLength)]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = ValidationMessages.LettersOnly)]
+        //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = ValidationMessages.LettersOnly)]
         public string FirstName { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = ValidationMessages.LastNameIsRequired)]
@@ -22,7 +22,7 @@ namespace GameTrader.API.Models
 
         [Required(ErrorMessage = ValidationMessages.PasswordIsRequired)]
         [MinLength(8, ErrorMessage = ValidationMessages.PasswordMinLength)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]", ErrorMessage = ValidationMessages.PasswordComplexity)]
+        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]", ErrorMessage = ValidationMessages.PasswordComplexity)]
         public string Password { get; set; }
 
         [Length(10, 10, ErrorMessage = ValidationMessages.PhoneNumberNotValid), Required(ErrorMessage = ValidationMessages.PhoneNumberIsRequired)]

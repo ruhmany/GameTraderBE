@@ -24,9 +24,7 @@ namespace GameTrader.API.Models
                 yield return new ValidationResult(ValidationMessages.InvalidEmailOrPassword, new List<string> { nameof(Email) });
                 yield break;
             }
-            var userRole = Task.Run(async () => await userManager.GetRolesAsync(user)).Result;
-            var isHHURequest = context.HttpContext.Request.Path.Value.ToLower().Contains("hhu");
-       
+            var userRole = Task.Run(async () => await userManager.GetRolesAsync(user)).Result;       
         }
     }
 }
