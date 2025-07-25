@@ -170,11 +170,11 @@ namespace GameTrader.Business.Services
         };
             claims.AddRange(permissionsClaims);
 
-            DateTime expirationTime = DateTime.Now.AddMinutes(_jwtConfiguration.AccessTokenExpirationDurationMinutes);
+            DateTime expirationTime = DateTime.Now.AddMinutes(_jwtConfiguration.AccessTokenExpirationDurationMinutes());
             string value = _tokenGeneratorService.GenerateToken(
-                _jwtConfiguration.AccessTokenSecret,
-                _jwtConfiguration.Issuer,
-                _jwtConfiguration.Audience,
+                _jwtConfiguration.AccessTokenSecret(),
+                _jwtConfiguration.Issuer(),
+                _jwtConfiguration.Audience(),
                 expirationTime,
                 claims);
 
@@ -262,13 +262,13 @@ namespace GameTrader.Business.Services
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var accessTokenSecret = Encoding.ASCII.GetBytes(_jwtConfiguration.AccessTokenSecret);
+                var accessTokenSecret = Encoding.ASCII.GetBytes(_jwtConfiguration.AccessTokenSecret());
 
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(accessTokenSecret),
-                    ValidIssuer = _jwtConfiguration.Issuer,
-                    ValidAudience = _jwtConfiguration.Audience,
+                    ValidIssuer = _jwtConfiguration.Issuer(),
+                    ValidAudience = _jwtConfiguration.Audience(),
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateAudience = true,

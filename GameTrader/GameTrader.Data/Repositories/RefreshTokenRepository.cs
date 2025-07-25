@@ -20,9 +20,17 @@ namespace GameTrader.Data.Repositories
             _dbcontext = dbcontext;
         }
 
-        public Task<string> Create(RefreshTokenDTO model)
+        public async Task<string> Create(RefreshTokenDTO model)
         {
-            throw new NotImplementedException();
+            var refreshToken = new RefreshToken
+            {
+                Id = model.Id,
+                Token = model.Token,
+                UserId = model.UserId
+            };
+            await _dbcontext.RefreshTokens.AddAsync(refreshToken);
+            await _dbcontext.SaveChangesAsync();
+            return refreshToken.Id.ToString();
         }
 
         public async Task Delete(Guid id)

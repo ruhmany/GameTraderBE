@@ -23,12 +23,12 @@ namespace GameTrader.Business.Services
 
         public string GenerateToken()
         {
-            DateTime expirationTime = DateTime.UtcNow.AddMinutes(_configuration.RefreshTokenExpirationDurationMinutes);
+            DateTime expirationTime = DateTime.UtcNow.AddMinutes(_configuration.RefreshTokenExpirationDurationMinutes());
 
             return GenerateToken(
-                _configuration.RefreshTokenSecret,
-                _configuration.Issuer,
-                _configuration.Audience,
+                _configuration.RefreshTokenSecret(),
+                _configuration.Issuer(),
+                _configuration.Audience(),
                 expirationTime);
         }
         public string GenerateToken(string secritKey, string issuer, string audience, DateTime expirationDate, IEnumerable<Claim>? claims = null)
