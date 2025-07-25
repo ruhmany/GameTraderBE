@@ -28,7 +28,6 @@ namespace GameTrader.API.Models
         [Required(ErrorMessage = ValidationMessages.PhoneNumberIsRequired)]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = ValidationMessages.UserRoleIsRequired)]
         [EnumDataType(typeof(RoleEnum), ErrorMessage = ValidationMessages.InvalidRole)]
         public RoleEnum? Role { get; set; }
 
