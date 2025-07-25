@@ -25,12 +25,12 @@ namespace GameTrader.API.Models
         //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]", ErrorMessage = ValidationMessages.PasswordComplexity)]
         public string Password { get; set; }
 
-        [Length(10, 10, ErrorMessage = ValidationMessages.PhoneNumberNotValid), Required(ErrorMessage = ValidationMessages.PhoneNumberIsRequired)]
+        [Required(ErrorMessage = ValidationMessages.PhoneNumberIsRequired)]
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = ValidationMessages.UserRoleIsRequired)]
         [EnumDataType(typeof(RoleEnum), ErrorMessage = ValidationMessages.InvalidRole)]
-        public RoleEnum Role { get; set; }
+        public RoleEnum? Role { get; set; }
 
         [Required(ErrorMessage = ValidationMessages.StatusIsRequired)]
         public bool Status { get; set; }
