@@ -19,6 +19,7 @@ namespace GameTrader.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration<Permission>(new PermissionConfiguration());
             builder.ApplyConfiguration<RolePermission>(new RolePermissionConfigurations());
             builder.ApplyConfiguration<Role>(new RoleConfiguration());
             base.OnModelCreating(builder);

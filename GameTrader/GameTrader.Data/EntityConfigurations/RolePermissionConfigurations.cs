@@ -1,4 +1,6 @@
-﻿using GameTrader.Data.DomainModels;
+﻿using GameTrader.Core.Enums;
+using GameTrader.Core.Helpers;
+using GameTrader.Data.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -14,7 +16,32 @@ namespace GameTrader.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<RolePermission> builder)
         {
-            builder.HasKey(rp => new { rp.RoleId, rp.PermissionId });
+            builder.HasKey(rp => rp.Id);
+            builder.HasData(RolePermissionsSeeding());
         }
+
+        private static List<RolePermission> RolePermissionsSeeding()
+        {
+            var data = new List<RolePermission>();
+            var init = 1;
+            foreach (PermissionEnum permission in Enum.GetValues(typeof(PermissionEnum)))
+            {
+                var roles = permission.GetPermissionRoles();
+
+                foreach (var role in roles)
+                {
+                    data.Add(
+                        new()
+                        {
+                            Id = init++,
+                            PermissionId = (int)permission,
+                            RoleId = role.GetId(),
+                        }
+                    );
+                }
+            }
+            return data;
+        }
+
     }
 }

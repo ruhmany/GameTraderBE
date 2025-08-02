@@ -1,4 +1,5 @@
-﻿using GameTrader.Core.Interfaces.IServices;
+﻿using GameTrader.Core.Helpers;
+using GameTrader.Core.Interfaces.IServices;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
@@ -12,10 +13,18 @@ namespace GameTrader.Business.Services
 {
     public class EmailService : IEmailService
     {
+        private readonly SMTPHelper _smtpHelper;
+
+        public EmailService(SMTPHelper smtpHelper)
+        {
+            _smtpHelper = smtpHelper;
+        }
+
         public async Task EmailSender(string to, string subject, string content)
         {           
+            var mailfrom = _smtpHelper.GetSmtpUsername();           
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("nicolas.douglas@ethereal.email"));
+            email.From.Add(MailboxAddress.Parse(_smtpHelper.GetSmtpUsername()));
             email.To.Add(MailboxAddress.Parse(to));
             email.Subject = subject;
             email.Body = new TextPart("html")
@@ -23,8 +32,8 @@ namespace GameTrader.Business.Services
                 Text = content
             };
             using var smtp = new SmtpClient();
-            await smtp.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-            await smtp.AuthenticateAsync("nicolas.douglas@ethereal.email", "rgjBQ4HqJGB7qG1Hyg");
+            await smtp.ConnectAsync(_smtpHelper.GetSmtpServer(), int.Parse(_smtpHelper.GetSmtpPort()), SecureSocketOptions.SslOnConnect);
+            await smtp.AuthenticateAsync(_smtpHelper.GetSmtpUsername(), (_smtpHelper.GetSmtpPassword()));
             smtp.Send(email);
             smtp.Disconnect(true);
         }

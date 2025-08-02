@@ -1,4 +1,5 @@
 ﻿using GameTrader.Business.Services;
+using GameTrader.Core.Helpers;
 using GameTrader.Core.Interfaces.IServices;
 using GameTrader.Core.ServiceModels.Configuration;
 using MailKit;
@@ -18,7 +19,8 @@ namespace GameTrader.Business
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>()
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<JWTConfigurationModel>()
-                .AddScoped<IEmailService, EmailService>();                
+                .AddScoped<IEmailService, EmailService>()
+                .AddSingleton<SMTPHelper>();                
 
             return services;
         }

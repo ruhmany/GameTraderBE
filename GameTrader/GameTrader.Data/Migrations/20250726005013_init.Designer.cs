@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameTrader.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250724161258_init-migration")]
-    partial class initmigration
+    [Migration("20250726005013_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,14 @@ namespace GameTrader.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "GetLoggedUser",
+                            URL = "User/GetLoggedUser"
+                        });
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Profile", b =>
@@ -129,6 +137,33 @@ namespace GameTrader.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("GameTrader.Data.DomainModels.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Role", b =>
@@ -160,24 +195,60 @@ namespace GameTrader.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c9809a45-1681-49bf-9765-b64d015abfd0",
+                            Description = "Administrator role with full permissions",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        },
+                        new
+                        {
+                            Id = "c9809a45-1681-49bf-9765-b64d015abfd2",
+                            Description = "Administrator role with full permissions",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.RolePermission", b =>
                 {
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PermissionId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("PermissionId1")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.HasKey("RoleId", "PermissionId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.HasIndex("PermissionId1");
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PermissionId = 1,
+                            RoleId = "c9809a45-1681-49bf-9765-b64d015abfd0"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PermissionId = 1,
+                            RoleId = "c9809a45-1681-49bf-9765-b64d015abfd2"
+                        });
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.User", b =>
@@ -309,11 +380,22 @@ namespace GameTrader.Data.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("GameTrader.Data.DomainModels.RefreshToken", b =>
+                {
+                    b.HasOne("GameTrader.Data.DomainModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("GameTrader.Data.DomainModels.RolePermission", b =>
                 {
                     b.HasOne("GameTrader.Data.DomainModels.Permission", "Permission")
                         .WithMany("RolePermissions")
-                        .HasForeignKey("PermissionId1")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

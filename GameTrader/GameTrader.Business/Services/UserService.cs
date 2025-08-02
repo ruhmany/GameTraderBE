@@ -30,11 +30,12 @@ namespace GameTrader.Business.Services
         private readonly UserManager<User> _userManager;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly JWTConfigurationModel _jwtConfiguration;
+        private readonly IEmailService _emailService;
         public UserService(IUserRepository userRepository, ITokenGeneratorService tokenGeneratorService,
           RoleManager<Role> roleManager, JWTConfigurationModel jwtConfiguration
               , IMapper mapper, IRefreshTokenRepository refreshTokenRepository
             , UserManager<User> userManager
-           )
+, IEmailService emailService)
         {
             _userRepository = userRepository;
             _tokenGeneratorService = tokenGeneratorService;
@@ -43,6 +44,7 @@ namespace GameTrader.Business.Services
             _userManager = userManager;
             _refreshTokenRepository = refreshTokenRepository;
             _jwtConfiguration = jwtConfiguration;
+            _emailService = emailService;
         }
         public async Task<(LoginResponseDTO Response, string Massage)> Login(LoginDTO model)
         {
@@ -139,7 +141,7 @@ namespace GameTrader.Business.Services
                 if (user.IsResetPassword) user.IsResetPassword = false;
                 result = await _userManager.UpdateAsync(user);
             }
-            foreach(var error in result.Errors)
+            foreach (var error in result.Errors)
             {
                 error.Description = error.Code == "PasswordMismatch" ? "Current password isn't correct" : error.Description;
             }
@@ -151,6 +153,10 @@ namespace GameTrader.Business.Services
         {
             var result = await _userRepository.Create(addUser);
             var template = EmailTemplateModels.GetEmailConfirmationTemplate(addUser.FirstName, addUser.LastName, addUser.Email, addUser.Password, addUser.Email);
+            await _emailService.EmailSender(addUser.Email,
+                "Email Confirmaion",
+                template
+            );
             return result;
         }
 
