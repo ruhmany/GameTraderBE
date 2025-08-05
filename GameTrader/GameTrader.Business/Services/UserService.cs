@@ -46,11 +46,29 @@ namespace GameTrader.Business.Services
             _jwtConfiguration = jwtConfiguration;
             _emailService = emailService;
         }
+
+
+        public async Task<bool> CheckOTP(CheckOTPDTO oTPDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(oTPDTO.Email);
+            if (user == null)
+                return false;
+            if (user.OTP == oTPDTO.OTP)
+            {
+                user.EmailConfirmed = true;
+                await _userManager.UpdateAsync(user);
+                return true;
+            } 
+            return false;
+        }
+
         public async Task<(LoginResponseDTO Response, string Massage)> Login(LoginDTO model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (!user.Status)
                 return (null, Massage: ValidationMessages.UserNotActive);
+            if (!user.EmailConfirmed)
+                return (null, Message: ValidationMessages.UserNotActive);
             var isCorrectPassword = await _userManager.CheckPasswordAsync(user, model.Password);
             if (!isCorrectPassword)
             {
@@ -152,12 +170,12 @@ namespace GameTrader.Business.Services
         public async Task<IdentityResult> Create(AddUserDTO addUser)
         {
             var result = await _userRepository.Create(addUser);
-            var template = EmailTemplateModels.GetEmailConfirmationTemplate(addUser.FirstName, addUser.LastName, addUser.Email, addUser.Password, addUser.Email);
+            var template = EmailTemplateModels.GetEmailConfirmationTemplate(addUser.FirstName, addUser.LastName, "Pubg Store", addUser.Email, result.Item2);
             await _emailService.EmailSender(addUser.Email,
                 "Email Confirmaion",
                 template
             );
-            return result;
+            return result.Item1;
         }
 
         public async Task<IdentityResult> Edit(EditUserDTO userDto, string loggedInUserRole)

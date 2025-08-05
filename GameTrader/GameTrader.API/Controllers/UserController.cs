@@ -34,6 +34,14 @@ namespace GameTrader.API.Controllers
                 BadRequest(result.Errors.Select(x => x.Description).ToArray());
         }
 
+        [HttpPost("ConfirmEmail")]
+        public async Task<ResponseFactory> Create(CheckOTPDTO oTPDTO)
+        {
+            var result = await _userService.CheckOTP(oTPDTO);
+            return result ? OK(ValidationMessages.OperationSucceded) :
+                BadRequest(ValidationMessages.OperationFaild);
+        }
+
         [HttpPost("SendEmail")]
         public IActionResult SendEmail(string to, string subject, string content)
         {

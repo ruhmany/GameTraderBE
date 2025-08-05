@@ -12,6 +12,7 @@ namespace GameTrader.Data.DomainModels
         public string? LastOldPassword { get; set; }
         public DateTime? PasswordExpirationDate { get; set; } = null;
         public DateTime CreatedDate { get; set; }
+        public string? OTP { get; set; }
 
         public bool IsDeleted { get; set; }
         public User()

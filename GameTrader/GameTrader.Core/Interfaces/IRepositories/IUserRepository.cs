@@ -8,7 +8,7 @@ namespace GameTrader.Core.Interfaces.IRepositories
     public interface IUserRepository
     {
         Task<PagedListModel<UserPageDTO>> GetAll(int pageIndex, int pageSize, string currentUserRole, string? fullName = null, string? lastName = null, string? workbase = null, string? sortBy = null, SortTypeEnum? sortType = null);
-        Task<IdentityResult> Create(AddUserDTO userDTO);
+        Task<(IdentityResult, string)> Create(AddUserDTO userDTO);
         Task<bool> DeleteAsync(string id);
         Task<bool> ToggleAsync(string id);
         Task<IdentityResult> Edit(EditUserDTO userDto);

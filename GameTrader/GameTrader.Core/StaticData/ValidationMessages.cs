@@ -38,7 +38,7 @@ namespace GameTrader.Core.StaticData
         public const string PhoneNumberNotValid = "Invalid Phone Number";
         public const string EmailNotValid = "Invalid Email";
         public const string InvalidRole = "Invalid Role";
-        public const string UserNotActive = "Your account has been disabled by a Manager. Please contact your administrator for assistance";
+        public const string UserNotActive = "Please confirm your email";
         public const string InvalidFileSize = "Image upload failed: File size exceeds the 5MB limit. Please upload a smaller image";
         public const string EnteredOldPassword = "Your password has been reset. Please use the temporary password sent to your email";
         public const string InvalidDateRange = "Invalid date range. The 'From' date cannot be after the 'To' date";

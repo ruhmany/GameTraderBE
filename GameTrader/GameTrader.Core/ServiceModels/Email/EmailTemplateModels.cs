@@ -3,7 +3,7 @@
     public class EmailTemplateModels
     {
 
-        public static string GetEmailConfirmationTemplate(string confirmationUrl, string userName, string companyName, string supportEmail, string email)
+        public static string GetEmailConfirmationTemplate(string confirmationUrl, string userName, string companyName, string email, string otpCode)
         {
             var greeting = !string.IsNullOrEmpty(userName) ? $"Hi {userName}," : "Hello,";
 
@@ -13,7 +13,7 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Confirm Your Email</title>
+    <title>Your OTP Code</title>
     <style>
         body {{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -54,50 +54,16 @@
             margin-bottom: 30px;
             line-height: 1.8;
         }}
-        .cta-button {{
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 16px;
+        .otp-code {{
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 4px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transition: transform 0.2s ease;
-        }}
-        .cta-button:hover {{
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }}
-        .alternative-link {{
-            margin-top: 30px;
+            background-color: #f1f3f5;
             padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-        }}
-        .alternative-link p {{
-            margin: 0 0 10px 0;
-            font-size: 14px;
-            color: #6c757d;
-        }}
-        .alternative-link a {{
-            word-break: break-all;
-            color: #667eea;
-            text-decoration: none;
-        }}
-        .footer {{
-            background-color: #f8f9fa;
-            padding: 30px;
-            text-align: center;
-            border-top: 1px solid #e9ecef;
-        }}
-        .footer p {{
-            margin: 5px 0;
-            font-size: 14px;
-            color: #6c757d;
+            border-radius: 10px;
+            margin: 20px 0;
+            color: #2d3748;
         }}
         .security-notice {{
             margin-top: 30px;
@@ -110,6 +76,17 @@
         .security-notice strong {{
             color: #b45309;
         }}
+        .footer {{
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }}
+        .footer p {{
+            margin: 5px 0;
+            font-size: 14px;
+            color: #6c757d;
+        }}
         @media (max-width: 600px) {{
             .content {{
                 padding: 30px 20px;
@@ -117,46 +94,33 @@
             .header {{
                 padding: 30px 20px;
             }}
-            .cta-button {{
-                display: block;
-                margin: 0 auto;
-            }}
         }}
     </style>
 </head>
 <body>
     <div class='email-container'>
         <div class='header'>
-            <h1>✉️ Confirm Your Email</h1>
+            <h1>🔐 Your One-Time Password (OTP)</h1>
         </div>
         
         <div class='content'>
             <div class='greeting'>{greeting}</div>
             
             <div class='message'>
-                <p>Welcome to <strong>{companyName}</strong>! We're excited to have you on board.</p>
-                <p>To complete your registration and secure your account, please confirm your email address by clicking the button below:</p>
+                <p>Use the following OTP to complete your action with <strong>{companyName}</strong>. This code is valid for a limited time.</p>
             </div>
             
-            <div style='text-align: center; margin: 40px 0;'>
-                <a href='{confirmationUrl}' class='cta-button'>Confirm Email Address</a>
-            </div>
-            
-            <div class='alternative-link'>
-                <p><strong>Button not working?</strong> Copy and paste this link into your browser:</p>
-                <a href='{confirmationUrl}'>{confirmationUrl}</a>
-            </div>
+            <div class='otp-code'>{otpCode}</div>
             
             <div class='security-notice'>
-                <p><strong>🔒 Security Notice:</strong> This confirmation link will expire in 24 hours for your security. If you didn't create an account with us, please ignore this email.</p>
+                <p><strong>⚠️ Security Notice:</strong> Do not share this code with anyone. If you didn’t request this OTP, please ignore this email.</p>
             </div>
         </div>
         
         <div class='footer'>
             <p><strong>{companyName}</strong></p>
-            <p>Need help? Contact us at <a href='mailto:{supportEmail}' style='color: #667eea;'>{supportEmail}</a></p>
             <p style='margin-top: 20px; font-size: 12px;'>
-                This email was sent to {email}. If you didn't request this email, you can safely ignore it.
+                This email was sent to {email}. If you didn't request this OTP, you can safely ignore it.
             </p>
         </div>
     </div>

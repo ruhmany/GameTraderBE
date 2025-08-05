@@ -24,5 +24,6 @@ namespace GameTrader.Core.Interfaces.IServices
         Task<UserDetailsDTO> GetDetailsById(string id);
         Task<IdentityResult> ResetPassword(string userId, string actorUserRole);
         Task<bool> Logout(string userId);
+        Task<bool> CheckOTP(CheckOTPDTO oTPDTO);
     }
 }

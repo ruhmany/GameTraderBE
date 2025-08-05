@@ -10,7 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PagedList;
-using X.PagedList;
+using System.Security.Cryptography;
+using System.Text;
 using X.PagedList.Extensions;
 
 namespace GameTrader.Data.Repositories
@@ -96,10 +97,11 @@ namespace GameTrader.Data.Repositories
         }
 
 
-        public async Task<IdentityResult> Create(AddUserDTO userDTO)
+        public async Task<(IdentityResult, string)> Create(AddUserDTO userDTO)
         {
             var user = _mapper.Map<User>(userDTO);
             IdentityResult result = null;
+            string otp = "";
             try
             {
                 user.Id = Guid.NewGuid().ToString();
@@ -107,6 +109,9 @@ namespace GameTrader.Data.Repositories
 
                 if (result.Succeeded)
                 {
+                    otp = GenerateOtp(6, true);
+                    user.OTP = otp;
+                    await _userManager.UpdateAsync(user);
                     await _userManager.SetLockoutEnabledAsync(user, false);
                     await _userManager.AddToRoleAsync(user, userDTO.Role.ToString());
                 }
@@ -116,7 +121,7 @@ namespace GameTrader.Data.Repositories
             {
                 await _userManager.DeleteAsync(user);
             }
-            return result;
+            return (result, otp);
         }
 
         public async Task<IdentityResult> Edit(EditUserDTO userDto)
@@ -199,6 +204,27 @@ namespace GameTrader.Data.Repositories
             return result;
         }
 
+        private string GenerateOtp(int length = 6, bool useAlphanumeric = false)
+        {
+            string Numbers = "0123456789";
+            string Alphanumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            var chars = useAlphanumeric ? Alphanumeric : Numbers;
+            var otp = new StringBuilder();
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                byte[] data = new byte[4];
+
+                for (int i = 0; i < length; i++)
+                {
+                    rng.GetBytes(data);
+                    int randomIndex = BitConverter.ToInt32(data, 0) % chars.Length;
+                    randomIndex = Math.Abs(randomIndex); // ensure non-negative index
+                    otp.Append(chars[randomIndex]);
+                }
+            }
+            return otp.ToString();
+        }
         private async Task SendEmailToUserAsync(string? email, string newPassword)
         {
             //await SendEmailHelper.SendEmailAsync(email, "New Password", $"Your Password Have been reseted To {newPassword}");
