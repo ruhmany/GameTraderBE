@@ -170,11 +170,14 @@ namespace GameTrader.Business.Services
         public async Task<IdentityResult> Create(AddUserDTO addUser)
         {
             var result = await _userRepository.Create(addUser);
-            var template = EmailTemplateModels.GetEmailConfirmationTemplate(addUser.FirstName, addUser.LastName, "Pubg Store", addUser.Email, result.Item2);
-            await _emailService.EmailSender(addUser.Email,
-                "Email Confirmaion",
-                template
-            );
+            if (result.Item1.Succeeded)
+            {
+                var template = EmailTemplateModels.GetEmailConfirmationTemplate(addUser.FirstName, addUser.LastName, "Pubg Store", addUser.Email, result.Item2);
+                await _emailService.EmailSender(addUser.Email,
+                    "Email Confirmaion",
+                    template
+                );
+            }
             return result.Item1;
         }
 

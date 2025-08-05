@@ -35,7 +35,7 @@ namespace GameTrader.API.Controllers
         }
 
         [HttpPost("ConfirmEmail")]
-        public async Task<ResponseFactory> Create(CheckOTPDTO oTPDTO)
+        public async Task<ResponseFactory> ConfirmEmail(CheckOTPDTO oTPDTO)
         {
             var result = await _userService.CheckOTP(oTPDTO);
             return result ? OK(ValidationMessages.OperationSucceded) :
