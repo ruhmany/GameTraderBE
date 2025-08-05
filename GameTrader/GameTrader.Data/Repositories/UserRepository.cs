@@ -111,6 +111,7 @@ namespace GameTrader.Data.Repositories
                 {
                     otp = GenerateOtp(6, true);
                     user.OTP = otp;
+                    user.OTPExpiresOn = DateTime.Now.AddMinutes(15);
                     await _userManager.UpdateAsync(user);
                     await _userManager.SetLockoutEnabledAsync(user, false);
                     await _userManager.AddToRoleAsync(user, userDTO.Role.ToString());

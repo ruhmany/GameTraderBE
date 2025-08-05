@@ -53,6 +53,8 @@ namespace GameTrader.Business.Services
             var user = await _userManager.FindByEmailAsync(oTPDTO.Email);
             if (user == null)
                 return false;
+            if(user.OTPExpiresOn < DateTime.Now)
+                return false;
             if (user.OTP == oTPDTO.OTP)
             {
                 user.EmailConfirmed = true;

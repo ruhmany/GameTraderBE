@@ -107,7 +107,7 @@
             <div class='greeting'>{greeting}</div>
             
             <div class='message'>
-                <p>Use the following OTP to complete your action with <strong>{companyName}</strong>. This code is valid for a limited time.</p>
+                <p>Use the following OTP to complete your action with <strong>{companyName}</strong>. This code is valid for a limited time (15 Minutes).</p>
             </div>
             
             <div class='otp-code'>{otpCode}</div>
