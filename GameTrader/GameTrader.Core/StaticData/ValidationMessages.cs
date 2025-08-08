@@ -42,7 +42,12 @@ namespace GameTrader.Core.StaticData
         public const string EnteredOldPassword = "Your password has been reset. Please use the temporary password sent to your email";
         public const string InvalidDateRange = "Invalid date range. The 'From' date cannot be after the 'To' date";
         public const string NotAllowFeatureDate = "Future date must not be allowed";
-        public const string DashboardLoadingError = "Unable to fetch dashboard data. Please try again later";        
+        public const string DashboardLoadingError = "Unable to fetch dashboard data. Please try again later";  
+        public const string AccountCreatedSuccessfully = "Account created successfully.";
+        public const string AccountCreationFailed = "Account creation failed. Please try again.";
+        public const string AccountNotFound = "Account not found.";
+        public const string AccountUpdatedSuccessfully = "Account Updated Successfully";
+        public const string AccountUpdateFailed = "Account Update Failed. Please try again.";
     }
 
 
