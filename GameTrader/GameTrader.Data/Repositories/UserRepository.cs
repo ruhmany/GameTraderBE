@@ -113,7 +113,7 @@ namespace GameTrader.Data.Repositories
             string otp = "";
             try
             {
-                user.Id = Guid.NewGuid().ToString();
+                user.Id = Guid.NewGuid().ToString();                
                 result = await _userManager.CreateAsync(user, userDTO.Password);
 
                 if (result.Succeeded)
@@ -123,7 +123,7 @@ namespace GameTrader.Data.Repositories
                     user.OTPExpiresOn = DateTime.Now.AddMinutes(15);
                     await _userManager.UpdateAsync(user);
                     await _userManager.SetLockoutEnabledAsync(user, false);
-                    await _userManager.AddToRoleAsync(user, userDTO.Role.ToString());
+                    await _userManager.AddToRoleAsync(user, RoleEnum.User.ToString());
                 }
 
             }
