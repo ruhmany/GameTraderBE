@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PagedList;
 using System.Security.Cryptography;
 using System.Text;
+using X.PagedList;
 using X.PagedList.Extensions;
 
 namespace GameTrader.Data.Repositories
@@ -25,13 +25,14 @@ namespace GameTrader.Data.Repositories
         private readonly RoleManager<Role> _roleManager;
         private readonly ApplicationDbContext _context;
 
-        public UserRepository(IServiceProvider serviceProvider, UserManager<User> userManager, RoleManager<Role> roleManager)
+        public UserRepository(IServiceProvider serviceProvider, UserManager<User> userManager, RoleManager<Role> roleManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _mapper = serviceProvider.GetRequiredService<IMapper>();
             _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             _mapperConfig = _mapper.ConfigurationProvider;
             _roleManager = roleManager;
+            _context = context;
         }
         public async Task<PagedListModel<UserPageDTO>> GetAll(int pageIndex, int pageSize, string currentUserRole, string? firstName = null, string? lastName = null, string? workbase = null, string? sortBy = null, SortTypeEnum? sortType = null)
         {
@@ -82,17 +83,25 @@ namespace GameTrader.Data.Repositories
                 }
             }
 
-            var list = baseQuery.AsNoTracking().Select(x => new UserPageDTO
+            PagedList<UserPageDTO> list = null; 
+            try
             {
-                Id = x.User.Id,
-                FirstName = x.User.FirstName,
-                LastName = x.User.LastName,
-                Email = x.User.Email,
-                PhoneNumber = x.User.PhoneNumber,
-                Status = x.User.Status,
-                CanBeManaged = x.RoleName.ToLower() == RoleEnum.SuperAdmin.ToString().ToLower() || currentUserRole.ToLower() == x.RoleName.ToLower()
+                baseQuery.AsNoTracking().Select(x => new UserPageDTO
+                {
+                    Id = x.User.Id,
+                    FirstName = x.User.FirstName,
+                    LastName = x.User.LastName,
+                    Email = x.User.Email,
+                    PhoneNumber = x.User.PhoneNumber,
+                    Status = x.User.Status,
+                    CanBeManaged = x.RoleName.ToLower() == RoleEnum.SuperAdmin.ToString().ToLower() || currentUserRole.ToLower() == x.RoleName.ToLower()
                     ? false : true
-            }).ToPagedList();
+                }).ToPagedList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             return new(items: list, metaData: list.GetMetaData());
         }
 
@@ -146,7 +155,7 @@ namespace GameTrader.Data.Repositories
             user.FirstName = userDto.FirstName;
             user.LastName = userDto.LastName;
             user.PhoneNumber = userDto.PhoneNumber;
-            user.Status = userDto.Status;
+            user.Status = true;
 
             var result = await _userManager.UpdateAsync(user);
             return result;

@@ -16,12 +16,14 @@ namespace GameTrader.API.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly IProfileService _profileService;
 
-        public UserController(IUserService userService, IMapper mapper, IEmailService emailService) : base()
+        public UserController(IUserService userService, IMapper mapper, IEmailService emailService, IProfileService profileService) : base()
         {
             _userService = userService;
             _mapper = mapper;
             _emailService = emailService;
+            _profileService = profileService;
         }
 
 
@@ -125,12 +127,6 @@ namespace GameTrader.API.Controllers
             return result ? OK(result) : BadRequest(ValidationMessages.RequestFalid);
         }
 
-        [HttpPut("toggle")]
-        public async Task<ResponseFactory> Toggle(string id)
-        {
-            var result = await _userService.ToggleAsync(id, UserRole);
-            return result.Result ? OK(result.Message) : BadRequest(result.Message);
-        }
 
         [HttpPut("ResetPassword")]
         public async Task<ResponseFactory> ResetPassword(string userId)
@@ -138,6 +134,14 @@ namespace GameTrader.API.Controllers
             var result = await _userService.ResetPassword(userId, UserRole);
             return result.Succeeded ? OK(ValidationMessages.OperationSucceded)
                                      : BadRequest(result.Errors.Select(x => x.Description).ToArray());
+        }
+
+        [HttpPost("CreateProfile")]
+        public async Task<ResponseFactory> CreateProfileAsync([FromForm] CreateProfileDTO model)
+        {
+            if (UserId is null) return BadRequest(ValidationMessages.BadRequest);
+            var result = await _profileService.CreateProfileAsync(UserId, model.ProfilePic, model.Bio);
+            return result ? OK(ValidationMessages.OperationSucceded) : BadRequest(ValidationMessages.OperationFaild);
         }
     }
 }

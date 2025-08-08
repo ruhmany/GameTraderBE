@@ -19,7 +19,6 @@ namespace GameTrader.Core.StaticData
         public const string Unauthorized = "Unauthorized";
         public const string NotFound = "Not Found";
         public const string NoDataFound = "No Data Found";
-        public const string ApplyFilterError = "Please apply at least one filter to export meter details.";
         public const string UnauthrizedManager = "Manager Is Not Allowed To Edit Or Delete Any Manager Or Superadmin Data";
         public const string InvalidEmailOrPassword = "Incorrect Email or Password";
         public const string DisabledUser = "Your account has been locked due to multiple unsuccessful login attempts. Please try again in 10 minutes";

@@ -97,8 +97,6 @@ namespace GameTrader.Business.Services
 
                 LoginResponseDTO response = await Authenticate(user, claims);
 
-                if (model.Password.Equals("P@$$w0rd") && !user.IsResetPassword)
-                    response.IsFirstLogin = true;
 
                 if (user.IsResetPassword)
                     response.IsResetPassword = true;
@@ -332,5 +330,6 @@ namespace GameTrader.Business.Services
                 _userRepository.GetDetailsById(userId).Result.RoleName;
             return userRole.ToLower() == RoleEnum.SuperAdmin.ToString().ToLower() || userRole.ToLower() == loggedInUserRole.ToLower() ? false : true;
         }
+
     }
 }

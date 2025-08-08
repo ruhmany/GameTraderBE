@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameTrader.Data.DomainModels
+namespace GameTrader.Core.DTOs.UserDTOs
 {
-    public class Profile : BaseEntity
+    public class CreateProfileDTO
     {
         public string ProfilePic { get; set; }
         public string Bio { get; set; }
-        public string UserId { get; set; }
-        public virtual User User { get; set; }
     }
 }
