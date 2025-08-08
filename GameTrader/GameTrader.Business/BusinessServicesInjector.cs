@@ -21,6 +21,7 @@ namespace GameTrader.Business
                 .AddScoped<JWTConfigurationModel>()
                 .AddScoped<IEmailService, EmailService>()
                 .AddScoped<IProfileService, ProfileService>()
+                .AddScoped<IAccountService, AccountService>()
                 .AddSingleton<SMTPHelper>();                
 
             return services;

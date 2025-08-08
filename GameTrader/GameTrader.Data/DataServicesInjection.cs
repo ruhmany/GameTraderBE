@@ -14,7 +14,8 @@ namespace GameTrader.Data
         public static IServiceCollection DateServicesInjector(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<IRefreshTokenRepository, RefreshTokenRepository>()  
+                .AddScoped<IRefreshTokenRepository, RefreshTokenRepository>()
+                .AddScoped<IAccountRepository, AccountRepository>()
                 .AddScoped<IProfileRepository, ProfileRepository>();
             return services;
         }
