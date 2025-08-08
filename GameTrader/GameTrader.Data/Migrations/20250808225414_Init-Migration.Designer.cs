@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameTrader.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250726005013_init")]
-    partial class init
+    [Migration("20250808225414_Init-Migration")]
+    partial class InitMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,8 +30,13 @@ namespace GameTrader.Data.Migrations
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Account", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GameAccId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -40,6 +45,7 @@ namespace GameTrader.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Username")
@@ -59,9 +65,8 @@ namespace GameTrader.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AccountId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Category")
                         .HasColumnType("int");
@@ -134,7 +139,13 @@ namespace GameTrader.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Profiles");
                 });
@@ -304,6 +315,12 @@ namespace GameTrader.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("OTP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OTPExpiresOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("PasswordExpirationDate")
                         .HasColumnType("datetime2");
 
@@ -315,9 +332,6 @@ namespace GameTrader.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<Guid?>("ProfileId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -342,8 +356,6 @@ namespace GameTrader.Data.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("ProfileId");
-
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -364,9 +376,13 @@ namespace GameTrader.Data.Migrations
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Account", b =>
                 {
-                    b.HasOne("GameTrader.Data.DomainModels.User", null)
+                    b.HasOne("GameTrader.Data.DomainModels.User", "User")
                         .WithMany("Acounts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Item", b =>
@@ -378,6 +394,17 @@ namespace GameTrader.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("GameTrader.Data.DomainModels.Profile", b =>
+                {
+                    b.HasOne("GameTrader.Data.DomainModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.RefreshToken", b =>
@@ -408,15 +435,6 @@ namespace GameTrader.Data.Migrations
                     b.Navigation("Permission");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("GameTrader.Data.DomainModels.User", b =>
-                {
-                    b.HasOne("GameTrader.Data.DomainModels.Profile", "Profile")
-                        .WithMany()
-                        .HasForeignKey("ProfileId");
-
-                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>

@@ -27,8 +27,13 @@ namespace GameTrader.Data.Migrations
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Account", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GameAccId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -37,6 +42,7 @@ namespace GameTrader.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Username")
@@ -56,9 +62,8 @@ namespace GameTrader.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AccountId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Category")
                         .HasColumnType("int");
@@ -368,9 +373,13 @@ namespace GameTrader.Data.Migrations
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Account", b =>
                 {
-                    b.HasOne("GameTrader.Data.DomainModels.User", null)
+                    b.HasOne("GameTrader.Data.DomainModels.User", "User")
                         .WithMany("Acounts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Item", b =>
