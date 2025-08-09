@@ -36,6 +36,9 @@ namespace GameTrader.Data
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<PaymentProfe> PaymentProves { get; set; }
 
+        public DbSet<PaymentVerification> PaymentVerifications { get; set; }
     }
 }

@@ -49,5 +49,20 @@ namespace GameTrader.API.Controllers
 
             return BadRequest(result.message);
         }
+
+        [HttpPost("Request-To-Buy-Items")]
+        public async Task<IActionResult> RequestToBuyItems([FromBody] AddAccountDTO accountDTO)
+        {
+            if (accountDTO == null)
+            {
+                return BadRequest("Account model cannot be null.");
+            }
+            var result = await _accountService.CreateAccount(accountDTO);
+            if (result.result)
+            {
+                return Ok(result.message);
+            }
+            return BadRequest(result.message);
+        }
     }
 }

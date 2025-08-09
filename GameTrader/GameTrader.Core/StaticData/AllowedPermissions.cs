@@ -18,8 +18,8 @@ namespace GameTrader.Core.StaticData
                     "/user/sendemail",
                     "/user/ConfirmEmail",
                     "/user/CreateProfile",
-                    "/user/get-all"
-
+                    "/user/get-all",
+                    "/account/create"
                 };
 
         public static List<string> RequireAuthenticationRoutes()
