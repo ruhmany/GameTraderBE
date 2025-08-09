@@ -48,6 +48,20 @@ namespace GameTrader.Core.StaticData
         public const string AccountNotFound = "Account not found.";
         public const string AccountUpdatedSuccessfully = "Account Updated Successfully";
         public const string AccountUpdateFailed = "Account Update Failed. Please try again.";
+        public const string ItemNotFound = "Item not found.";
+        public const string ItemAddedSuccessfully = "Item added successfully.";
+        public const string ItemAdditionFailed = "Item addition failed. Please try again.";
+        public const string ItemUpdatedSuccessfully = "Item updated successfully.";
+        public const string ItemUpdateFailed = "Item update failed. Please try again.";
+        public const string ItemDeletedSuccessfully = "Item deleted successfully.";
+        public const string ItemDeletionFailed = "Item deletion failed. Please try again.";
+        public const string RequestCreatedSuccessfully = "Request created successfully.";
+        public const string RequestCreationFailed = "Request creation failed. Please try again.";
+        public const string RequestUpdatedSuccessfully = "Request updated successfully.";
+        public const string RequestUpdateFailed = "Request update failed. Please try again.";
+        public const string RequestDeletedSuccessfully = "Request deleted successfully.";
+        public const string RequestDeletionFailed = "Request deletion failed. Please try again.";
+        public const string RequestNotFound = "Request not found.";
     }
 
 

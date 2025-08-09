@@ -1,4 +1,5 @@
 ﻿using GameTrader.Core.DTOs.AccountDTOs;
+using GameTrader.Core.DTOs.ItemDTOs;
 using GameTrader.Data.DomainModels;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,22 @@ namespace GameTrader.Data.StaticExtensionsMappers
 {
     public static class Mapper
     {
+
+        public static Request ToRequestEntity(this BuyItemsDTO dto)
+        {
+            if (dto == null) return null;
+
+            return new Request
+            {
+                SellerId = dto.SellerId,
+                BuyerId = dto.BuyerId,
+                ItemId = dto.ItemId,
+                Quntity = dto.Quntity,
+                IsPaid = false,
+                IsAccecpted = false,
+                IsDone = false
+            };
+        }
         public static Account MapToAccount(this AddAccountDTO accountDTO)
         {
             return new Account

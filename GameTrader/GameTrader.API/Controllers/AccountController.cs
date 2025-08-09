@@ -1,4 +1,6 @@
 ﻿using GameTrader.Core.DTOs.AccountDTOs;
+using GameTrader.Core.DTOs.ItemDTOs;
+using GameTrader.Core.Factories;
 using GameTrader.Core.Interfaces.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +9,7 @@ namespace GameTrader.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : BaseController
     {
         private readonly IAccountService _accountService;
 
@@ -17,7 +19,7 @@ namespace GameTrader.API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateAccount([FromBody] AddAccountDTO accountDTO)
+        public async Task<ResponseFactory> CreateAccount([FromBody] AddAccountDTO accountDTO)
         {
             if (accountDTO == null)
             {
@@ -27,14 +29,14 @@ namespace GameTrader.API.Controllers
 
             if (result.result)
             {
-                return Ok(result.message);
+                return OK(result.message);
             }
 
             return BadRequest(result.message);
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateAccount([FromBody] EditAccountDTO accountDTO)
+        public async Task<ResponseFactory> UpdateAccount([FromBody] EditAccountDTO accountDTO)
         {
             if (accountDTO == null)
             {
@@ -44,24 +46,9 @@ namespace GameTrader.API.Controllers
 
             if (result.result)
             {
-                return Ok(result.message);
+                return OK(result.message);
             }
 
-            return BadRequest(result.message);
-        }
-
-        [HttpPost("Request-To-Buy-Items")]
-        public async Task<IActionResult> RequestToBuyItems([FromBody] AddAccountDTO accountDTO)
-        {
-            if (accountDTO == null)
-            {
-                return BadRequest("Account model cannot be null.");
-            }
-            var result = await _accountService.CreateAccount(accountDTO);
-            if (result.result)
-            {
-                return Ok(result.message);
-            }
             return BadRequest(result.message);
         }
     }
