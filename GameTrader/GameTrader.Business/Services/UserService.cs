@@ -58,6 +58,7 @@ namespace GameTrader.Business.Services
             if (user.OTP == oTPDTO.OTP)
             {
                 user.EmailConfirmed = true;
+                user.Status = true;
                 await _userManager.UpdateAsync(user);
                 return true;
             } 
