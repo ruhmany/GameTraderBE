@@ -23,6 +23,8 @@ namespace GameTrader.Business
                 .AddScoped<IProfileService, ProfileService>()
                 .AddScoped<IAccountService, AccountService>()
                 .AddScoped<IPaymentService, PaymentService>()
+                .AddScoped<IItemService, ItemService>()
+                .AddScoped<ICategoryService, CategoryService>()
                 .AddSingleton<SMTPHelper>();                
 
             return services;

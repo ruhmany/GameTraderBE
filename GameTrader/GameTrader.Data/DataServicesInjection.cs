@@ -17,7 +17,9 @@ namespace GameTrader.Data
                 .AddScoped<IRefreshTokenRepository, RefreshTokenRepository>()
                 .AddScoped<IAccountRepository, AccountRepository>()
                 .AddScoped<IPaymentRepository, PaymentRepository>()
-                .AddScoped<IProfileRepository, ProfileRepository>();
+                .AddScoped<IProfileRepository, ProfileRepository>()
+                .AddScoped<IItemRepository, ItemRepository>()
+                .AddScoped<ICategoryRepository, CategoryRepository>();
             return services;
         }
     }

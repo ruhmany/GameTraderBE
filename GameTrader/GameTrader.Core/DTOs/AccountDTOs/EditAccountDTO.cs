@@ -13,6 +13,5 @@ namespace GameTrader.Core.DTOs.AccountDTOs
         public string Username { get; set; }
         public string GameAccId { get; set; }
         public string UserId { get; set; }
-        public List<EditItemDTO> Items { get; set; }
     }
 }

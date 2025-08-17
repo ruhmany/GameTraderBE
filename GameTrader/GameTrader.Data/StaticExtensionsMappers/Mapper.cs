@@ -34,13 +34,7 @@ namespace GameTrader.Data.StaticExtensionsMappers
             {
                 Username = accountDTO.Username,
                 GameAccId = accountDTO.GameAccId,
-                UserId = accountDTO.UserId,
-                Items = accountDTO.Items?.Select(item => new Item
-                {
-                    UnitPrice = item.UnitPrice,
-                    UnitCount = item.UnitCount,
-                    Category = item.Category
-                }).ToList() ?? new List<Item>()
+                UserId = accountDTO.UserId,                
             };
         }
 
@@ -51,18 +45,18 @@ namespace GameTrader.Data.StaticExtensionsMappers
             account.Username = dto.Username;
             account.GameAccId = dto.GameAccId;
             account.UserId = dto.UserId;
+        }
 
-            if (dto.Items != null)
+        public static Item MapToItem(this AddItemDTO itemDTO)
+        {
+            if (itemDTO == null) return null;
+            return new Item
             {
-                account.Items = dto.Items.Select(i => new Item
-                {
-                    Id = i.Id ?? Guid.NewGuid(),
-                    UnitPrice = i.UnitPrice,
-                    UnitCount = i.UnitCount,
-                    Category = i.Category,
-                    AccountId = account.Id
-                }).ToList();
-            }
+                UnitPrice = itemDTO.UnitPrice,
+                UnitCount = itemDTO.UnitCount,
+                Category = itemDTO.Category,
+                AccountId = Guid.Parse(itemDTO.AccountId)
+            };
         }
     }
 }

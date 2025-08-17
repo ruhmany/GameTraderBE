@@ -9,6 +9,7 @@ namespace GameTrader.Core.DTOs.ItemDTOs
 {
     public class AddItemDTO
     {
+        public string AccountId { get; set; }
         public decimal UnitPrice { get; set; }
         public int UnitCount { get; set; }
         public CategoryEnum Category { get; set; }

@@ -38,7 +38,7 @@ namespace GameTrader.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<PaymentProfe> PaymentProves { get; set; }
-
+        public DbSet<CategoryLockup> Categories { get; set; }
         public DbSet<PaymentVerification> PaymentVerifications { get; set; }
     }
 }
