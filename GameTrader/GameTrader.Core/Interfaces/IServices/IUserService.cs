@@ -1,4 +1,5 @@
-﻿using GameTrader.Core.DTOs.UserDTOs;
+﻿using GameTrader.Core.DTOs.AccountDTOs;
+using GameTrader.Core.DTOs.UserDTOs;
 using GameTrader.Core.Enums;
 using GameTrader.Core.ServiceModels.PagedList;
 using Microsoft.AspNetCore.Identity;
@@ -25,5 +26,6 @@ namespace GameTrader.Core.Interfaces.IServices
         Task<IdentityResult> ResetPassword(string userId, string actorUserRole);
         Task<bool> Logout(string userId);
         Task<bool> CheckOTP(CheckOTPDTO oTPDTO);
+        Task<List<AccountDTO>> GetAllAccounts();
     }
 }

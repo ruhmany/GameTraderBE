@@ -53,7 +53,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.CategoryLockup", b =>
@@ -70,7 +70,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Item", b =>
@@ -101,7 +101,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.PaymentProfe", b =>
@@ -122,7 +122,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentProves");
+                    b.ToTable("PaymentProves", (string)null);
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.PaymentVerification", b =>
@@ -155,7 +155,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasIndex("RequestId");
 
-                    b.ToTable("PaymentVerifications");
+                    b.ToTable("PaymentVerifications", (string)null);
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Permission", b =>
@@ -176,7 +176,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
 
                     b.HasData(
                         new
@@ -239,7 +239,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Profiles");
+                    b.ToTable("Profiles", (string)null);
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.RefreshToken", b =>
@@ -266,7 +266,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Request", b =>
@@ -306,7 +306,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Requests");
+                    b.ToTable("Requests", (string)null);
                 });
 
             modelBuilder.Entity("GameTrader.Data.DomainModels.Role", b =>
@@ -377,7 +377,7 @@ namespace GameTrader.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermissions");
+                    b.ToTable("RolePermissions", (string)null);
 
                     b.HasData(
                         new

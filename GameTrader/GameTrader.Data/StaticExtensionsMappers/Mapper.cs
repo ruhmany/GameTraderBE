@@ -50,13 +50,20 @@ namespace GameTrader.Data.StaticExtensionsMappers
         public static Item MapToItem(this AddItemDTO itemDTO)
         {
             if (itemDTO == null) return null;
-            return new Item
+            try
             {
-                UnitPrice = itemDTO.UnitPrice,
-                UnitCount = itemDTO.UnitCount,
-                Category = itemDTO.Category,
-                AccountId = Guid.Parse(itemDTO.AccountId)
-            };
+                return new Item
+                {
+                    UnitPrice = itemDTO.UnitPrice,
+                    UnitCount = itemDTO.UnitCount,
+                    Category = (int)itemDTO.Category,
+                    AccountId = Guid.Parse(itemDTO.AccountId)
+                };
+            }catch(Exception ex)
+            {
+                Console.WriteLine($"Error mapping AddItemDTO to Item: {ex.Message}");
+            }
+            return null;
         }
     }
 }

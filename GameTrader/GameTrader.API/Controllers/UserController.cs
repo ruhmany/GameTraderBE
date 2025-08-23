@@ -143,5 +143,16 @@ namespace GameTrader.API.Controllers
             var result = await _profileService.CreateProfileAsync(UserId, model.ProfilePic, model.Bio);
             return result ? OK(ValidationMessages.OperationSucceded) : BadRequest(ValidationMessages.OperationFaild);
         }
+
+        [HttpGet("get-all-accounts")]
+        public async Task<ResponseFactory> GetAllAccounts()
+        {
+            var accounts = await _userService.GetAllAccounts();
+            if (accounts is null || !accounts.Any())
+            {
+                return NotFound(ValidationMessages.NotFound);
+            }
+            return OK(accounts, ValidationMessages.OperationSucceded);
+        }
     }
 }

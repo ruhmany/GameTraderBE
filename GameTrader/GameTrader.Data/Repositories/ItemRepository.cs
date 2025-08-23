@@ -12,6 +12,12 @@ namespace GameTrader.Data.Repositories
     public class ItemRepository : IItemRepository
     {
         private readonly ApplicationDbContext _context;
+
+        public ItemRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public async Task<bool> AddNewItem(AddItemDTO itemDTO)
         {
             var item = itemDTO.MapToItem();

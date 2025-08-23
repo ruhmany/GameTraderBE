@@ -72,5 +72,7 @@ namespace GameTrader.API.Controllers
             }
             return Ok(categories);
         }
+
+
     }
 }

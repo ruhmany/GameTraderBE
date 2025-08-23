@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameTrader.Core.DTOs.AccountDTOs;
 using GameTrader.Core.DTOs.UserDTOs;
 using GameTrader.Core.Enums;
 using GameTrader.Core.Interfaces.IRepositories;
@@ -239,5 +240,11 @@ namespace GameTrader.Data.Repositories
         {
             //await SendEmailHelper.SendEmailAsync(email, "New Password", $"Your Password Have been reseted To {newPassword}");
         }
+
+        public async Task<List<AccountDTO>> GetAllAccounts()
+            => await _context.Users
+                .Where(x => x.UserName != "SuperAdmin" && !x.IsDeleted)
+                .Select(x => new AccountDTO(x.Id, $"{x.FirstName} {x.LastName}"))
+                .ToListAsync();
     }
 }

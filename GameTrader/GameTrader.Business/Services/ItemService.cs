@@ -12,6 +12,12 @@ namespace GameTrader.Business.Services
     public class ItemService : IItemService
     {
         private readonly IItemRepository _itemRepository;
+
+        public ItemService(IItemRepository itemRepository)
+        {
+            _itemRepository = itemRepository;
+        }
+
         public Task<bool> AddNewItem(AddItemDTO itemDTO)
         => _itemRepository.AddNewItem(itemDTO);
 

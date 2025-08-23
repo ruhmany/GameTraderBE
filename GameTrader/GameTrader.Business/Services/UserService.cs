@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameTrader.Core.DTOs.AccountDTOs;
 using GameTrader.Core.DTOs.UserDTOs;
 using GameTrader.Core.Enums;
 using GameTrader.Core.Helpers;
@@ -332,5 +333,7 @@ namespace GameTrader.Business.Services
             return userRole.ToLower() == RoleEnum.SuperAdmin.ToString().ToLower() || userRole.ToLower() == loggedInUserRole.ToLower() ? false : true;
         }
 
+        public async Task<List<AccountDTO>> GetAllAccounts()
+        => await _userRepository.GetAllAccounts();
     }
 }
